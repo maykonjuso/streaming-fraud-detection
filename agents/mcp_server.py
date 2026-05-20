@@ -110,7 +110,7 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                 json={
                     "query": f"""
                     query {{
-                        fraudStats(windowHours: {arguments.get('window_hours', 1)}) {{
+                        fraudStats(windowHours: {arguments.get("window_hours", 1)}) {{
                             totalTransactions fraudCount fraudRate avgFraudScore maxFraudScore
                         }}
                     }}
@@ -130,4 +130,5 @@ async def main():
 
 if __name__ == "__main__":
     import asyncio
+
     asyncio.run(main())

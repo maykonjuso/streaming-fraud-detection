@@ -54,8 +54,14 @@ def compute_features(df: pd.DataFrame) -> pd.DataFrame:
         .rename(columns={"count": "tx_count_1h", "sum": "tx_amount_1h"})
         .reset_index()
     )
-    df = df.merge(velocity[["account_id", "timestamp", "tx_count_1h", "tx_amount_1h"]], on=["account_id", "timestamp"], how="left")
-    df[["tx_count_1h", "tx_amount_1h"]] = df[["tx_count_1h", "tx_amount_1h"]].fillna({"tx_count_1h": 1, "tx_amount_1h": df["amount"]})
+    df = df.merge(
+        velocity[["account_id", "timestamp", "tx_count_1h", "tx_amount_1h"]],
+        on=["account_id", "timestamp"],
+        how="left",
+    )
+    df[["tx_count_1h", "tx_amount_1h"]] = df[["tx_count_1h", "tx_amount_1h"]].fillna(
+        {"tx_count_1h": 1, "tx_amount_1h": df["amount"]}
+    )
 
     return df
 

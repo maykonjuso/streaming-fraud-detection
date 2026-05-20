@@ -37,18 +37,20 @@ KAFKA_TOPIC = "raw_transactions"
 BRONZE_PATH = "data/delta/bronze"
 CHECKPOINT_PATH = "data/checkpoints/bronze"
 
-TRANSACTION_SCHEMA = StructType([
-    StructField("transaction_id", StringType(), False),
-    StructField("account_id", StringType(), False),
-    StructField("merchant_id", StringType(), False),
-    StructField("amount", DoubleType(), False),
-    StructField("currency", StringType(), True),
-    StructField("transaction_type", StringType(), False),
-    StructField("channel", StringType(), False),
-    StructField("country_code", StringType(), False),
-    StructField("timestamp", TimestampType(), False),
-    StructField("is_fraud", BooleanType(), False),
-])
+TRANSACTION_SCHEMA = StructType(
+    [
+        StructField("transaction_id", StringType(), False),
+        StructField("account_id", StringType(), False),
+        StructField("merchant_id", StringType(), False),
+        StructField("amount", DoubleType(), False),
+        StructField("currency", StringType(), True),
+        StructField("transaction_type", StringType(), False),
+        StructField("channel", StringType(), False),
+        StructField("country_code", StringType(), False),
+        StructField("timestamp", TimestampType(), False),
+        StructField("is_fraud", BooleanType(), False),
+    ]
+)
 
 
 def run() -> None:

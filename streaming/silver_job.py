@@ -44,9 +44,7 @@ def add_features(df):
     """
     high_risk_countries = ["NG", "RU", "CN", "UA", "RO", "PK"]
 
-    window_1h = (
-        F.window("timestamp", "1 hour")
-    )
+    window_1h = F.window("timestamp", "1 hour")
 
     velocity = (
         df.groupBy("account_id", window_1h)
@@ -59,7 +57,10 @@ def add_features(df):
 
     return (
         df.join(velocity, on="account_id", how="left")
-        .withColumn("is_high_risk_country", F.col("country_code").isin(high_risk_countries).cast(T.IntegerType()))
+        .withColumn(
+            "is_high_risk_country",
+            F.col("country_code").isin(high_risk_countries).cast(T.IntegerType()),
+        )
         .withColumn("hour_of_day", F.hour("timestamp"))
         .withColumn("day_of_week", F.dayofweek("timestamp"))
         .withColumn("is_weekend", (F.col("day_of_week").isin([1, 7])).cast(T.IntegerType()))

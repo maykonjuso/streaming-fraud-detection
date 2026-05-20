@@ -44,16 +44,18 @@ FEATURE_COLS = [
     "is_weekend",
 ]
 
-GOLD_SCHEMA = StructType([
-    StructField("transaction_id", StringType(), False),
-    StructField("account_id", StringType(), False),
-    StructField("isolation_score", DoubleType(), True),
-    StructField("ecod_score", DoubleType(), True),
-    StructField("classifier_proba", DoubleType(), True),
-    StructField("final_score", DoubleType(), True),
-    StructField("is_fraud_predicted", StringType(), True),
-    StructField("scored_at", StringType(), False),
-])
+GOLD_SCHEMA = StructType(
+    [
+        StructField("transaction_id", StringType(), False),
+        StructField("account_id", StringType(), False),
+        StructField("isolation_score", DoubleType(), True),
+        StructField("ecod_score", DoubleType(), True),
+        StructField("classifier_proba", DoubleType(), True),
+        StructField("final_score", DoubleType(), True),
+        StructField("is_fraud_predicted", StringType(), True),
+        StructField("scored_at", StringType(), False),
+    ]
+)
 
 
 def load_models():
@@ -91,20 +93,24 @@ def build_score_udf(isolation_model, ecod_model, classifier_model):
             features = pdf[FEATURE_COLS].fillna(0).values
             iso_scores = (-iso.score_samples(features) + 1) / 2
             ecod_scores = ecod.decision_function(features)
-            ecod_scores = (ecod_scores - ecod_scores.min()) / (ecod_scores.max() - ecod_scores.min() + 1e-9)
+            ecod_scores = (ecod_scores - ecod_scores.min()) / (
+                ecod_scores.max() - ecod_scores.min() + 1e-9
+            )
             clf_probas = clf.predict_proba(features)[:, 1]
             final = 0.4 * iso_scores + 0.4 * ecod_scores + 0.2 * clf_probas
 
-            result = pd.DataFrame({
-                "transaction_id": pdf["transaction_id"],
-                "account_id": pdf["account_id"],
-                "isolation_score": iso_scores,
-                "ecod_score": ecod_scores,
-                "classifier_proba": clf_probas,
-                "final_score": final,
-                "is_fraud_predicted": np.where(final >= 0.5, "FRAUD", "NORMAL"),
-                "scored_at": pd.Timestamp.utcnow().isoformat(),
-            })
+            result = pd.DataFrame(
+                {
+                    "transaction_id": pdf["transaction_id"],
+                    "account_id": pdf["account_id"],
+                    "isolation_score": iso_scores,
+                    "ecod_score": ecod_scores,
+                    "classifier_proba": clf_probas,
+                    "final_score": final,
+                    "is_fraud_predicted": np.where(final >= 0.5, "FRAUD", "NORMAL"),
+                    "scored_at": pd.Timestamp.utcnow().isoformat(),
+                }
+            )
             yield result
 
     return score_batch

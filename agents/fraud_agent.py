@@ -131,11 +131,13 @@ async def triage_alert(transaction_id: str) -> dict:
             tool_results_content = []
             for tool_call in tool_calls:
                 result = await _execute_tool(tool_call.name, tool_call.input)
-                tool_results_content.append({
-                    "type": "tool_result",
-                    "tool_use_id": tool_call.id,
-                    "content": json.dumps(result),
-                })
+                tool_results_content.append(
+                    {
+                        "type": "tool_result",
+                        "tool_use_id": tool_call.id,
+                        "content": json.dumps(result),
+                    }
+                )
 
             messages.append({"role": "user", "content": tool_results_content})
 
@@ -148,6 +150,7 @@ async def _execute_tool(tool_name: str, tool_input: dict) -> dict:
     PT: Executa uma chamada de ferramenta contra a API de detecção de fraude.
     """
     import httpx
+
     async with httpx.AsyncClient(base_url="http://localhost:8000", timeout=10.0) as client:
         if tool_name == "get_fraud_score":
             resp = await client.get(f"/scores/{tool_input['transaction_id']}")

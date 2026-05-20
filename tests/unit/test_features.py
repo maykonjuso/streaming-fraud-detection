@@ -20,7 +20,9 @@ class TestComputeFeatures:
     def test_high_risk_country_flagged(self, sample_transactions):
         result = compute_features(sample_transactions)
         fraud_rows = result[result["is_fraud"]]
-        assert (fraud_rows["is_high_risk_country"] == 1).all(), "Fraud transactions should be high-risk country"
+        assert (fraud_rows["is_high_risk_country"] == 1).all(), (
+            "Fraud transactions should be high-risk country"
+        )
 
     def test_normal_country_not_flagged(self, sample_transactions):
         result = compute_features(sample_transactions)

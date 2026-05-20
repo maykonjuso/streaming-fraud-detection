@@ -111,7 +111,9 @@ def run() -> None:
             sent += 1
 
             if sent % 1_000 == 0:
-                logger.info("Sent %d transactions (%d fraud)", sent, int(sent * config.fraud_injection_rate))
+                logger.info(
+                    "Sent %d transactions (%d fraud)", sent, int(sent * config.fraud_injection_rate)
+                )
 
             time.sleep(interval)
     except KeyboardInterrupt:

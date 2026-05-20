@@ -33,6 +33,7 @@ def kafka_producer():
 def test_api_health():
     """EN: API must be reachable. PT: API deve estar acessível."""
     import httpx
+
     resp = httpx.get(f"{API_BASE}/health")
     assert resp.status_code == 200
     assert resp.json()["status"] == "ok"
@@ -65,6 +66,7 @@ def test_kafka_producer_sends_message(kafka_producer):
 def test_graphql_fraud_stats():
     """EN: GraphQL fraudStats query must return a valid structure. PT: Query fraudStats do GraphQL deve retornar estrutura válida."""
     import httpx
+
     resp = httpx.post(
         f"{API_BASE}/graphql",
         json={"query": "{ fraudStats(windowHours: 1) { totalTransactions fraudRate } }"},

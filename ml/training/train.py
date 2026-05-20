@@ -59,7 +59,9 @@ def load_training_data() -> pd.DataFrame:
 
 
 def train_isolation_forest(X: np.ndarray) -> IsolationForest:
-    model = IsolationForest(contamination=CONTAMINATION, n_estimators=200, random_state=42, n_jobs=-1)
+    model = IsolationForest(
+        contamination=CONTAMINATION, n_estimators=200, random_state=42, n_jobs=-1
+    )
     model.fit(X)
     return model
 
@@ -92,17 +94,21 @@ def run() -> None:
     X = get_feature_matrix(df)
     y = df["is_fraud"].astype(int).values
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, stratify=y, random_state=42
+    )
 
     with mlflow.start_run(run_name="ensemble-training"):
-        mlflow.log_params({
-            "training_window_days": TRAINING_WINDOW_DAYS,
-            "contamination": CONTAMINATION,
-            "train_size": len(X_train),
-            "test_size": len(X_test),
-            "fraud_rate": float(y.mean()),
-            "features": FEATURE_COLS,
-        })
+        mlflow.log_params(
+            {
+                "training_window_days": TRAINING_WINDOW_DAYS,
+                "contamination": CONTAMINATION,
+                "train_size": len(X_train),
+                "test_size": len(X_test),
+                "fraud_rate": float(y.mean()),
+                "features": FEATURE_COLS,
+            }
+        )
 
         logger.info("Training IsolationForest...")
         iso = train_isolation_forest(X_train)
@@ -110,7 +116,9 @@ def run() -> None:
         iso_auc = roc_auc_score(y_test, iso_scores)
         mlflow.log_metric("isolation_forest_auc", iso_auc)
         mlflow.sklearn.log_model(iso, "isolation_forest")
-        mlflow.register_model(f"runs:/{mlflow.active_run().info.run_id}/isolation_forest", "fraud-isolation-forest")
+        mlflow.register_model(
+            f"runs:/{mlflow.active_run().info.run_id}/isolation_forest", "fraud-isolation-forest"
+        )
 
         logger.info("Training ECOD...")
         ecod = train_ecod(X_train)
@@ -128,7 +136,9 @@ def run() -> None:
         mlflow.log_metric("classifier_auc", clf_auc)
         mlflow.log_text(classification_report(y_test, clf_preds), "classification_report.txt")
         mlflow.sklearn.log_model(clf, "classifier")
-        mlflow.register_model(f"runs:/{mlflow.active_run().info.run_id}/classifier", "fraud-classifier")
+        mlflow.register_model(
+            f"runs:/{mlflow.active_run().info.run_id}/classifier", "fraud-classifier"
+        )
 
         iso_n = (-iso.score_samples(X_test) + 1) / 2
         ecod_n = (ecod_scores - ecod_scores.min()) / (ecod_scores.max() - ecod_scores.min() + 1e-9)
@@ -138,7 +148,10 @@ def run() -> None:
 
         logger.info(
             "Training complete. AUC — IsoForest: %.4f | ECOD: %.4f | XGB: %.4f | Ensemble: %.4f",
-            iso_auc, ecod_auc, clf_auc, ensemble_auc,
+            iso_auc,
+            ecod_auc,
+            clf_auc,
+            ensemble_auc,
         )
 
 

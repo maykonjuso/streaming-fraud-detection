@@ -27,7 +27,9 @@ class TestIsolationForest:
         fraud_mask = sample_transactions["is_fraud"].values
         avg_fraud_score = scores[fraud_mask].mean()
         avg_normal_score = scores[~fraud_mask].mean()
-        assert avg_fraud_score < avg_normal_score, "Fraud transactions should have lower (more anomalous) scores"
+        assert avg_fraud_score < avg_normal_score, (
+            "Fraud transactions should have lower (more anomalous) scores"
+        )
 
 
 class TestECOD:
@@ -50,4 +52,6 @@ class TestECOD:
         fraud_mask = sample_transactions["is_fraud"].values
         avg_fraud_score = scores[fraud_mask].mean()
         avg_normal_score = scores[~fraud_mask].mean()
-        assert avg_fraud_score > avg_normal_score, "ECOD fraud scores should be higher (more anomalous)"
+        assert avg_fraud_score > avg_normal_score, (
+            "ECOD fraud scores should be higher (more anomalous)"
+        )

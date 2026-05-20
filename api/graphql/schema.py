@@ -11,7 +11,6 @@ PT: Expõe queries complexas de fraude para dashboards e o agente MCP.
     Ver ADR-003 para a justificativa.
 """
 
-
 import strawberry
 
 
