@@ -1,0 +1,37 @@
+groups:
+  - name: fraud_pipeline
+    rules:
+      - alert: HighPipelineLag
+        # EN: Fires when Kafka-to-Gold latency exceeds 5 minutes.
+        # PT: Dispara quando latência Kafka-to-Gold excede 5 minutos.
+        expr: histogram_quantile(0.95, rate(pipeline_lag_ms_bucket[5m])) > 300000
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Pipeline lag critical (> 5 min)"
+          description: "P95 lag is {{ $value }}ms. Check gold_job logs."
+
+      - alert: FraudRateSpike
+        # EN: Fires when fraud rate is 3x above the 1-hour baseline.
+        # PT: Dispara quando taxa de fraude é 3x acima da baseline de 1 hora.
+        expr: >
+          rate(fraud_transactions_total[5m])
+          > 3 * avg_over_time(rate(fraud_transactions_total[5m])[1h:5m])
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Fraud rate spike detected"
+          description: "Current rate {{ $value }} tx/s. Check model or producer."
+
+      - alert: APIDown
+        # EN: Fires when the FastAPI /health endpoint stops responding.
+        # PT: Dispara quando o endpoint /health da FastAPI para de responder.
+        expr: up{job="fraud-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Fraud Detection API is down"
+          description: "FastAPI not reachable. Check api/main.py logs."
