@@ -10,13 +10,13 @@ PT: Modelos Pydantic para validação e serialização de eventos de transação
 """
 
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from uuid import UUID
 
 from pydantic import BaseModel, Field
 
 
-class TransactionType(str, Enum):
+class TransactionType(StrEnum):
     PURCHASE = "purchase"
     TRANSFER = "transfer"
     WITHDRAWAL = "withdrawal"
@@ -24,7 +24,7 @@ class TransactionType(str, Enum):
     REFUND = "refund"
 
 
-class TransactionChannel(str, Enum):
+class TransactionChannel(StrEnum):
     ONLINE = "online"
     ATM = "atm"
     POS = "pos"

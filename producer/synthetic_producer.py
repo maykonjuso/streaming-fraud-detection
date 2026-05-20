@@ -20,7 +20,7 @@ import logging
 import random
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from faker import Faker
 from kafka import KafkaProducer
@@ -47,7 +47,7 @@ def _build_normal_transaction(account_id: str, merchant_id: str) -> Transaction:
         transaction_type=random.choice(list(TransactionType)),
         channel=random.choice(list(TransactionChannel)),
         country_code="BR",
-        timestamp=datetime.now(tz=timezone.utc),
+        timestamp=datetime.now(tz=UTC),
         is_fraud=False,
     )
 
@@ -66,7 +66,7 @@ def _build_fraudulent_transaction(account_id: str, merchant_id: str) -> Transact
         transaction_type=TransactionType.TRANSFER,
         channel=TransactionChannel.ONLINE,
         country_code=random.choice(["NG", "RU", "CN", "UA", "RO"]),
-        timestamp=datetime.now(tz=timezone.utc),
+        timestamp=datetime.now(tz=UTC),
         is_fraud=True,
     )
 

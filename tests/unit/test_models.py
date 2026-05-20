@@ -4,10 +4,6 @@ PT: Testes unitários para os wrappers de modelos ML.
 """
 
 import numpy as np
-import pytest
-from pyod.models.ecod import ECOD
-from sklearn.ensemble import IsolationForest
-
 from ml.features.feature_engineering import get_feature_matrix
 from ml.training.train import train_ecod, train_isolation_forest
 

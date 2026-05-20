@@ -69,5 +69,5 @@ async def fraud_alerts(websocket: WebSocket):
                 min_score = float(config.get("min_score", min_score))
             except (json.JSONDecodeError, ValueError):
                 pass
-    except (WebSocketDisconnect, asyncio.TimeoutError):
+    except (TimeoutError, WebSocketDisconnect):
         AlertBroadcaster.disconnect(websocket)

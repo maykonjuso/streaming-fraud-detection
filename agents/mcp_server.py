@@ -15,7 +15,6 @@ Usage / Uso:
 """
 
 import logging
-from datetime import datetime, timezone
 
 import httpx
 from mcp.server import Server

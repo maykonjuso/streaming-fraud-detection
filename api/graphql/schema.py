@@ -11,7 +11,6 @@ PT: Expõe queries complexas de fraude para dashboards e o agente MCP.
     Ver ADR-003 para a justificativa.
 """
 
-from typing import Optional
 
 import strawberry
 
@@ -38,7 +37,7 @@ class FraudStats:
 @strawberry.type
 class Query:
     @strawberry.field
-    def transaction_score(self, transaction_id: str) -> Optional[FraudScoreGQL]:
+    def transaction_score(self, transaction_id: str) -> FraudScoreGQL | None:
         """
         EN: Fetch fraud score for a specific transaction ID.
         PT: Busca score de fraude para um transaction ID específico.
@@ -50,7 +49,7 @@ class Query:
         self,
         min_score: float = 0.5,
         limit: int = 50,
-        account_id: Optional[str] = None,
+        account_id: str | None = None,
     ) -> list[FraudScoreGQL]:
         """
         EN: List recent fraud alerts with optional account filter.

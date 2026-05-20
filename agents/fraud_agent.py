@@ -105,7 +105,6 @@ async def triage_alert(transaction_id: str) -> dict:
     ]
 
     tools = get_mcp_tools()
-    tool_results = {}
 
     while True:
         response = client.messages.create(

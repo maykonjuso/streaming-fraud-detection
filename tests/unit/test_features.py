@@ -4,9 +4,6 @@ PT: Testes unitários para o módulo de feature engineering.
 """
 
 import numpy as np
-import pandas as pd
-import pytest
-
 from ml.features.feature_engineering import FEATURE_COLS, compute_features, get_feature_matrix
 
 

@@ -9,13 +9,12 @@ PT: Monta routers REST, endpoint WebSocket, GraphQL e métricas Prometheus.
 from contextlib import asynccontextmanager
 
 import strawberry
-from fastapi import FastAPI
-from prometheus_fastapi_instrumentator import Instrumentator
-from strawberry.fastapi import GraphQLRouter
-
 from api.graphql.schema import Query
 from api.metrics import setup_custom_metrics
 from api.routers import scores, transactions, websocket
+from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
+from strawberry.fastapi import GraphQLRouter
 
 
 @asynccontextmanager

@@ -9,7 +9,6 @@ PT: Testes de integração end-to-end para o pipeline de streaming.
 """
 
 import json
-import time
 import uuid
 
 import pytest
