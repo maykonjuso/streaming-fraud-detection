@@ -47,7 +47,6 @@ jobs:
     name: Build Docker Images
     runs-on: ubuntu-latest
     needs: test-unit
-    if: false  # EN: Enable after Dockerfiles are created (issue #2). PT: Habilitar após criar Dockerfiles (issue #2).
     steps:
       - uses: actions/checkout@v4
       - name: Build API image

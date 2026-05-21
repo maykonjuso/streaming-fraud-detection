@@ -1,0 +1,55 @@
+name: Feature Request
+description: Suggest a new feature / Sugerir uma nova funcionalidade
+labels: ["enhancement"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **EN:** Have an idea? Describe the feature and the problem it solves.
+        **PT:** Tem uma ideia? Descreva a funcionalidade e o problema que ela resolve.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary / Resumo
+      description: "EN: One-line description of the feature. PT: Descrição em uma linha da funcionalidade."
+      placeholder: "e.g. Add SHAP explanations to fraud alerts"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Problema
+      description: "EN: What problem does this solve? PT: Qual problema isso resolve?"
+      placeholder: "EN: Currently the API only returns a score with no explanation... PT: Atualmente a API retorna apenas um score sem explicação..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution / Solução proposta
+      description: "EN: Describe your proposed solution. PT: Descreva sua solução proposta."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered / Alternativas consideradas
+      description: "EN: Other solutions you considered and why you ruled them out. PT: Outras soluções consideradas e por que foram descartadas."
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority / Prioridade
+      options:
+        - Low / Baixa
+        - Medium / Média
+        - High / Alta
+        - Critical / Crítica
+    validations:
+      required: true

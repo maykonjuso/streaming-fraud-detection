@@ -1,0 +1,14 @@
+# Global owners — all PRs require review from at least one of these.
+* @maykonjuso
+
+# Streaming jobs — Spark expertise required.
+streaming/ @maykonjuso
+
+# ML pipeline — model changes need careful review.
+ml/ @maykonjuso
+
+# Infrastructure — Docker/Compose changes need ops review.
+infra/ @maykonjuso
+
+# CI/CD pipelines.
+.github/workflows/ @maykonjuso

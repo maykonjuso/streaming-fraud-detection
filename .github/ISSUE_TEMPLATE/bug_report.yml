@@ -1,0 +1,64 @@
+name: Bug Report
+description: Report a bug / Reportar um bug
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **EN:** Thank you for reporting a bug. Fill in as much detail as possible.
+        **PT:** Obrigado por reportar um bug. Preencha com o máximo de detalhes possível.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary / Resumo
+      description: "EN: One-line description of the bug. PT: Descrição em uma linha do bug."
+      placeholder: "e.g. gold_job crashes on empty DataFrame / gold_job falha em DataFrame vazio"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce / Passos para reproduzir
+      description: "EN: Steps to reproduce the behaviour. PT: Passos para reproduzir o comportamento."
+      placeholder: |
+        1. Run `make streaming-start`
+        2. Send transaction with amount = 0
+        3. See error in gold_job logs
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour / Comportamento esperado
+      description: "EN: What you expected to happen. PT: O que você esperava que acontecesse."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour / Comportamento atual
+      description: "EN: What actually happened. PT: O que realmente aconteceu."
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Stack trace
+      description: "EN: Paste relevant log output or stack trace. PT: Cole a saída de log ou stack trace relevante."
+      render: shell
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment / Ambiente
+      description: "Python version, OS, Docker version, etc."
+      placeholder: "Python 3.11.9, Ubuntu 22.04, Docker 26.1"
+    validations:
+      required: false
