@@ -12,6 +12,12 @@ testpaths = ["tests"]
 pythonpath = ["."]
 markers = ["integration: requires running infrastructure (deselect with -m 'not integration')"]
 asyncio_mode = "auto"
+filterwarnings = [
+    # opentelemetry transitively imported by mlflow — not our code
+    "ignore:SelectableGroups dict interface is deprecated:DeprecationWarning",
+    # pyod ECOD precision warning on small datasets (expected in unit test fixtures)
+    "ignore:Precision loss occurred in moment calculation:RuntimeWarning",
+]
 
 [tool.coverage.run]
 source = ["ml", "api"]
