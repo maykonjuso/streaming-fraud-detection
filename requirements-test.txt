@@ -1,0 +1,33 @@
+# Minimal dependencies for unit tests (no Spark/Delta to keep CI fast)
+# Dependências mínimas para testes unitários (sem Spark/Delta para CI rápido)
+#
+# EN: Uses >= bounds for compiled packages so pip picks a pre-built wheel
+#     for the current Python version (3.11 in CI, 3.13 locally).
+# PT: Usa bounds >= para pacotes compilados para o pip escolher wheel
+#     pré-compilada para a versão atual do Python (3.11 no CI, 3.13 local).
+
+# ML — loose bounds so pip picks a wheel for the running Python version
+numpy>=1.26.4
+pandas>=2.2.2
+scikit-learn>=1.5.0
+pyod>=2.0.1
+xgboost>=2.0.3
+faker>=25.2.0
+
+# API
+fastapi>=0.115.0,<1.0.0
+httpx>=0.27.0,<1.0.0
+pydantic>=2.8.0,<3.0.0
+pydantic-settings>=2.3.0,<3.0.0
+strawberry-graphql[fastapi]>=0.235.0
+prometheus-fastapi-instrumentator>=7.0.0
+prometheus-client>=0.20.0
+websockets>=12.0
+
+# MLflow (imported at module level in train.py)
+mlflow>=2.13.0
+
+# Test runner
+pytest>=8.2.2
+pytest-asyncio>=0.23.7
+pytest-cov>=5.0.0

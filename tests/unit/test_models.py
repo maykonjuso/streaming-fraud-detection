@@ -5,7 +5,7 @@ PT: Testes unitários para os wrappers de modelos ML.
 
 import numpy as np
 from ml.features.feature_engineering import get_feature_matrix
-from ml.training.train import train_ecod, train_isolation_forest
+from ml.training.train import train_classifier, train_ecod, train_isolation_forest
 
 
 class TestIsolationForest:
@@ -30,6 +30,36 @@ class TestIsolationForest:
         assert avg_fraud_score < avg_normal_score, (
             "Fraud transactions should have lower (more anomalous) scores"
         )
+
+
+class TestClassifier:
+    def test_fits_without_error(self, sample_transactions):
+        X = get_feature_matrix(sample_transactions)
+        y = sample_transactions["is_fraud"].astype(int).values
+        model = train_classifier(X, y)
+        assert model is not None
+
+    def test_predict_proba_in_range(self, sample_transactions):
+        X = get_feature_matrix(sample_transactions)
+        y = sample_transactions["is_fraud"].astype(int).values
+        model = train_classifier(X, y)
+        probas = model.predict_proba(X)[:, 1]
+        assert ((probas >= 0) & (probas <= 1)).all()
+
+    def test_output_length_matches_input(self, sample_transactions):
+        X = get_feature_matrix(sample_transactions)
+        y = sample_transactions["is_fraud"].astype(int).values
+        model = train_classifier(X, y)
+        probas = model.predict_proba(X)[:, 1]
+        assert len(probas) == len(sample_transactions)
+
+    def test_fraud_proba_higher_than_normal(self, sample_transactions):
+        X = get_feature_matrix(sample_transactions)
+        y = sample_transactions["is_fraud"].astype(int).values
+        model = train_classifier(X, y)
+        probas = model.predict_proba(X)[:, 1]
+        fraud_mask = sample_transactions["is_fraud"].values
+        assert probas[fraud_mask].mean() > probas[~fraud_mask].mean()
 
 
 class TestECOD:

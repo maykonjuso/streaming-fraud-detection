@@ -22,12 +22,13 @@ import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-from ml.features.feature_engineering import FEATURE_COLS, get_feature_matrix
 from pyod.models.ecod import ECOD
 from sklearn.ensemble import IsolationForest
 from sklearn.metrics import classification_report, roc_auc_score
 from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
+
+from ml.features.feature_engineering import FEATURE_COLS, get_feature_matrix
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("train")
@@ -38,7 +39,7 @@ SILVER_PATH = os.getenv("SILVER_PATH", "data/delta/silver")
 CONTAMINATION = 0.02
 
 
-def load_training_data() -> pd.DataFrame:
+def load_training_data() -> pd.DataFrame:  # pragma: no cover
     """
     EN: Load feature data from Delta Lake Silver for the training window.
     PT: Carrega dados de features do Delta Lake Silver para a janela de treino.
@@ -86,7 +87,7 @@ def train_classifier(X_train: np.ndarray, y_train: np.ndarray) -> XGBClassifier:
     return model
 
 
-def run() -> None:
+def run() -> None:  # pragma: no cover
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment("fraud-detection")
 

@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install lint dependencies
-        run: pip install ruff mypy
+        run: pip install ruff
       - name: Ruff check
         run: ruff check .
       - name: Ruff format check
@@ -31,8 +31,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install dependencies
-        run: pip install -r requirements-dev.txt
+      - name: Install test dependencies
+        # EN: Uses requirements-test.txt (no Spark/Delta) to keep CI fast.
+        # PT: Usa requirements-test.txt (sem Spark/Delta) para CI rápido.
+        run: pip install -r requirements-test.txt
       - name: Run unit tests
         run: pytest tests/unit/ -v --tb=short --cov=ml --cov=api --cov-report=xml --cov-fail-under=80
       - name: Upload coverage
@@ -45,6 +47,7 @@ jobs:
     name: Build Docker Images
     runs-on: ubuntu-latest
     needs: test-unit
+    if: false  # EN: Enable after Dockerfiles are created (issue #2). PT: Habilitar após criar Dockerfiles (issue #2).
     steps:
       - uses: actions/checkout@v4
       - name: Build API image
